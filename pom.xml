@@ -93,6 +93,10 @@
             <id>bg-repo</id>
             <url>https://repo.bg-software.com/repository/api/</url>
         </repository>
+        <repository>
+            <id>rosewood-repo</id>
+            <url>https://repo.rosewooddev.io/repository/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -146,8 +150,13 @@
             <groupId>com.bgsoftware</groupId>
             <artifactId>WildStackerAPI</artifactId>
             <version>latest</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.rosewood</groupId>
+            <artifactId>rosestacker</artifactId>
+            <version>1.4.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
-
 </project>

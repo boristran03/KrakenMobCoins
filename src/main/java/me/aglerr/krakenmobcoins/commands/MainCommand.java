@@ -26,7 +26,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         AddCommand addCommand = new AddCommand();
         BalanceCommand balanceCommand = new BalanceCommand();
         CategoryCommand categoryCommand = new CategoryCommand();
-        ConvertCommand convertCommand = new ConvertCommand();
         HelpCommand helpCommand = new HelpCommand();
         PayCommand payCommand = new PayCommand();
         RefreshCommand refreshCommand = new RefreshCommand();
@@ -44,7 +43,6 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         subCommands.put("bal", balanceCommand);
 
         subCommands.put("category", categoryCommand);
-        subCommands.put("convert", convertCommand);
         subCommands.put("help", helpCommand);
         subCommands.put("pay", payCommand);
         subCommands.put("refresh", refreshCommand);

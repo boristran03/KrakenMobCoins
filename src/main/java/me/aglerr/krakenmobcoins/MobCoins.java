@@ -4,8 +4,9 @@ import fr.mrmicky.fastinv.FastInvManager;
 import me.aglerr.krakenmobcoins.api.MobCoinsAPI;
 import me.aglerr.krakenmobcoins.coinmob.CoinMobManager;
 import me.aglerr.krakenmobcoins.commands.MainCommand;
-import me.aglerr.krakenmobcoins.configs.*;
-import me.aglerr.krakenmobcoins.database.SQL;
+import me.aglerr.krakenmobcoins.configs.MobsConfig;
+import me.aglerr.krakenmobcoins.configs.ShopConfig;
+import me.aglerr.krakenmobcoins.configs.TempDataConfig;
 import me.aglerr.krakenmobcoins.enums.ConfigMessages;
 import me.aglerr.krakenmobcoins.enums.ConfigMessagesList;
 import me.aglerr.krakenmobcoins.listeners.*;
@@ -13,6 +14,7 @@ import me.aglerr.krakenmobcoins.manager.*;
 import me.aglerr.krakenmobcoins.shops.ShopUtils;
 import me.aglerr.krakenmobcoins.shops.loader.ItemsLoader;
 import me.aglerr.krakenmobcoins.utils.ConfigUpdater;
+import me.aglerr.krakenmobcoins.utils.ConfigUtils;
 import me.aglerr.krakenmobcoins.utils.Metrics;
 import me.aglerr.krakenmobcoins.utils.Utils;
 import org.bukkit.Bukkit;
@@ -23,7 +25,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public class MobCoins extends JavaPlugin {
 
@@ -31,56 +32,68 @@ public class MobCoins extends JavaPlugin {
      * Version 2.1
      * Main goal is to remove singletons usage and switching it
      * into dependency injection and also make the code more object oriented
-     *
+     * <p>
      * TODO: LastRewardManager.class
      * TODO: Fixing database bugs
-     *
      */
 
-    private SQL database;
+    private static MobCoins __instance;
 
-    private final Set<UUID> mobSpawner = new HashSet<>();
+    private Set<UUID> mobSpawner;
 
-    private final List<EntityDamageEvent.DamageCause> damageCauses = new ArrayList<>();
+    private List<EntityDamageEvent.DamageCause> damageCauses;
 
-    private final TempDataConfig tempDataConfig = new TempDataConfig(this);
-    private final MobsConfig mobsConfig = new MobsConfig(this);
-    private final ShopConfig shopConfig = new ShopConfig(this);
-
-    private final ItemsLoader itemsLoader = new ItemsLoader(this);
-
-    private final ShopUtils shopUtils = new ShopUtils(this);
-    private final Utils utils = new Utils(this);
-    private final CoinMobManager coinMobManager = new CoinMobManager(this);
-    private final SalaryManager salaryManager = new SalaryManager(this);
-    private final DependencyManager dependencyManager = new DependencyManager(this);
-    private final ItemStockManager itemStockManager = new ItemStockManager(this);
-    private final ToggleNotificationManager notificationManager = new ToggleNotificationManager(this);
-    private final RotatingManager rotatingManager = new RotatingManager(this);
-    private final CategoryManager categoryManager = new CategoryManager(this);
-    private final AccountManager accountManager = new AccountManager(this);
-    private final PurchaseLimitManager limitManager = new PurchaseLimitManager(this);
+    private TempDataConfig tempDataConfig;
+    private MobsConfig mobsConfig;
+    private ShopConfig shopConfig;
+    private ItemsLoader itemsLoader;
+    private ShopUtils shopUtils;
+    private Utils utils;
+    private CoinMobManager coinMobManager;
+    private SalaryManager salaryManager;
+    private DependencyManager dependencyManager;
+    private ItemStockManager itemStockManager;
+    private ToggleNotificationManager notificationManager;
+    private RotatingManager rotatingManager;
+    private CategoryManager categoryManager;
+    private AccountManager accountManager;
+    private PurchaseLimitManager limitManager;
 
     private static MobCoinsAPI api;
 
+    public static MobCoins getInstance() {
+        return __instance;
+    }
+
     @Override
     public void onEnable() {
-
+        __instance = this;
         createDatabaseFile();
+        init();
         File categoriesFolder = new File("plugins/KrakenMobcoins/categories");
-        if(!categoriesFolder.exists()){
+        if (!categoriesFolder.exists()) {
             categoriesFolder.mkdirs();
         }
 
         registerConfigs();
         updateConfigs();
 
+        new ConfigUtils().loadConfig();
+
         register();
         registerCommandsListeners();
 
-        database = new SQL(this);
         api = new MobCoinsAPI(this);
 
+        getLogger().info("  __  __  ____  ____   _____ ____ _____ _   _  _____ \n" +
+                " |  \\/  |/ __ \\|  _ \\ / ____/ __ \\_   _| \\ | |/ ____|\n" +
+                " | \\  / | |  | | |_) | |   | |  | || | |  \\| | (___  \n" +
+                " | |\\/| | |  | |  _ <| |   | |  | || | | . ` |\\___ \\ \n" +
+                " | |  | | |__| | |_) | |___| |__| || |_| |\\  |____) |\n" +
+                " |_|  |_|\\____/|____/ \\_____\\____/_____|_| \\_|_____/ \n" +
+                "                                                     ");
+        getLogger().info("Plugin đã được recode bởi quanphungg_");
+        Bukkit.getOnlinePlayers().forEach((player) -> getAccountManager().loadPlayerData(player));
     }
 
     @Override
@@ -97,7 +110,6 @@ public class MobCoins extends JavaPlugin {
 
         this.loadShop();
 
-        accountManager.loadAllPlayerData();
         notificationManager.loadToggledListFromConfig();
         coinMobManager.loadCoinMob();
         itemStockManager.loadStockFromConfig();
@@ -203,9 +215,9 @@ public class MobCoins extends JavaPlugin {
 
     }
 
-    private void loadDamageCausePhysical(){
-        for(String string : this.getConfig().getStringList("options.physicalMobCoin.deathCause")){
-            try{
+    private void loadDamageCausePhysical() {
+        for (String string : this.getConfig().getStringList("options.physicalMobCoin.deathCause")) {
+            try {
                 damageCauses.add(EntityDamageEvent.DamageCause.valueOf(string));
             } catch (IllegalArgumentException exception) {
                 utils.sendConsoleMessage("Damage Cause with name '{string}' is invalid!".replace("{string}", string));
@@ -214,26 +226,39 @@ public class MobCoins extends JavaPlugin {
         }
     }
 
-    private void createDatabaseFile(){
+    public void init() {
+        mobSpawner = new HashSet<>();
+        damageCauses = new ArrayList<>();
+        tempDataConfig = new TempDataConfig(this);
+        mobsConfig = new MobsConfig(this);
+        shopConfig = new ShopConfig(this);
+        itemsLoader = new ItemsLoader(this);
+        shopUtils = new ShopUtils(this);
+        utils = new Utils(this);
+        coinMobManager = new CoinMobManager(this);
+        salaryManager = new SalaryManager(this);
+        dependencyManager = new DependencyManager(this);
+        itemStockManager = new ItemStockManager(this);
+        notificationManager = new ToggleNotificationManager(this);
+        rotatingManager = new RotatingManager(this);
+        categoryManager = new CategoryManager(this);
+        accountManager = new AccountManager(this);
+        limitManager = new PurchaseLimitManager(this);
+    }
+
+    private void createDatabaseFile() {
         File pluginFolder = new File("plugins/KrakenMobcoins");
-        if(!pluginFolder.exists()){
+        if (!pluginFolder.exists()) {
             pluginFolder.mkdirs();
         }
-
-        File dataFolder = new File(this.getDataFolder(), "database.db");
-        if(!dataFolder.exists()){
-            try{
-                dataFolder.createNewFile();
-                utils.sendConsoleMessage("Successfully creating database file.");
-            } catch(IOException e){
-                e.printStackTrace();
-            }
+        File dataFolder = new File(MobCoins.getInstance().getDataFolder(), "dataFolder");
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
         }
     }
 
     public static MobCoinsAPI getAPI() { return api; }
     public Utils getUtils() { return utils; }
-    public SQL getDatabase() { return database; }
     public TempDataConfig getTempDataManager() { return tempDataConfig; }
     public ShopConfig getShopManager() { return shopConfig; }
     public Set<UUID> getMobSpawner() { return mobSpawner; }

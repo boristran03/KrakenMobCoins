@@ -7,7 +7,6 @@ import com.cryptomorin.xseries.messages.ActionBar;
 import com.cryptomorin.xseries.messages.Titles;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.aglerr.krakenmobcoins.MobCoins;
-import me.aglerr.krakenmobcoins.database.PlayerCoins;
 import me.aglerr.krakenmobcoins.enums.ConfigMessages;
 import me.aglerr.krakenmobcoins.shops.CategoryInventory;
 import me.aglerr.krakenmobcoins.shops.NormalShopInventory;
@@ -26,7 +25,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Utils {
@@ -128,7 +130,7 @@ public class Utils {
     }
 
     public boolean hasOffhand() {
-        if (Bukkit.getVersion().contains("1.9") ||
+        return Bukkit.getVersion().contains("1.9") ||
                 Bukkit.getVersion().contains("1.10") ||
                 Bukkit.getVersion().contains("1.11") ||
                 Bukkit.getVersion().contains("1.12") ||
@@ -136,11 +138,7 @@ public class Utils {
                 Bukkit.getVersion().contains("1.14") ||
                 Bukkit.getVersion().contains("1.15") ||
                 Bukkit.getVersion().contains("1.16") ||
-                Bukkit.getVersion().contains("1.17")){
-            return true;
-        } else {
-            return false;
-        }
+                Bukkit.getVersion().contains("1.17");
 
     }
 
@@ -320,7 +318,7 @@ public class Utils {
 
     public void sendActionBar(Player player, double amount){
         FileConfiguration config = plugin.getConfig();
-        if(config.getBoolean("receivedMobCoins.actionBar.enabled")){
+        if (config.getBoolean("receivedMobCoins.actionBar.enabled")) {
             String message = config.getString("receivedMobCoins.actionBar.message").replace("%amount%", this.getDecimalFormat().format(amount));
             int duration = config.getInt("receivedMobCoins.actionBar.duration") * 20;
 
@@ -329,53 +327,53 @@ public class Utils {
         }
     }
 
-    public String getTopName(int index){
+//    public String getTopName(int index){
+//
+//        FileConfiguration config = plugin.getConfig();
+//        String nameEmpty = config.getString("placeholders.top.nameIfEmpty");
+//
+//        List<PlayerCoins> playerCoinsList = plugin.getAccountManager().getTop();
+//
+//        try{
+//            PlayerCoins playerCoins = playerCoinsList.get(index);
+//            return playerCoins.getPlayerName();
+//        } catch(IndexOutOfBoundsException exception){
+//            return nameEmpty;
+//        }
+//
+//    }
+//
+//    public String getTopMoney(int index){
+//        FileConfiguration config = plugin.getConfig();
+//        String moneyEmpty = config.getString("placeholders.top.moneyIfEmpty");
+//
+//        List<PlayerCoins> playerCoinsList = plugin.getAccountManager().getTop();
+//        DecimalFormat df = plugin.getUtils().getDecimalFormat();
+//
+//        try{
+//            PlayerCoins playerCoins = playerCoinsList.get(index);
+//            return df.format(playerCoins.getMoney());
+//        } catch(IndexOutOfBoundsException exception){
+//            return moneyEmpty;
+//        }
+//
+//    }
+//
+//    public String getTopMoneyFormat(int index){
+//        FileConfiguration config = plugin.getConfig();
+//        String moneyEmpty = config.getString("placeholders.top.moneyIfEmpty");
+//        List<PlayerCoins> playerCoinsList = plugin.getAccountManager().getTop();
+//
+//        try{
+//            PlayerCoins playerCoins = playerCoinsList.get(index);
+//            return this.formatShort(playerCoins.getMoney());
+//        } catch(IndexOutOfBoundsException exception){
+//            return moneyEmpty;
+//        }
+//
+//    }
 
-        FileConfiguration config = plugin.getConfig();
-        String nameEmpty = config.getString("placeholders.top.nameIfEmpty");
-
-        List<PlayerCoins> playerCoinsList = plugin.getAccountManager().getTop();
-
-        try{
-            PlayerCoins playerCoins = playerCoinsList.get(index);
-            return playerCoins.getPlayerName();
-        } catch(IndexOutOfBoundsException exception){
-            return nameEmpty;
-        }
-
-    }
-
-    public String getTopMoney(int index){
-        FileConfiguration config = plugin.getConfig();
-        String moneyEmpty = config.getString("placeholders.top.moneyIfEmpty");
-
-        List<PlayerCoins> playerCoinsList = plugin.getAccountManager().getTop();
-        DecimalFormat df = plugin.getUtils().getDecimalFormat();
-
-        try{
-            PlayerCoins playerCoins = playerCoinsList.get(index);
-            return df.format(playerCoins.getMoney());
-        } catch(IndexOutOfBoundsException exception){
-            return moneyEmpty;
-        }
-
-    }
-
-    public String getTopMoneyFormat(int index){
-        FileConfiguration config = plugin.getConfig();
-        String moneyEmpty = config.getString("placeholders.top.moneyIfEmpty");
-        List<PlayerCoins> playerCoinsList = plugin.getAccountManager().getTop();
-
-        try{
-            PlayerCoins playerCoins = playerCoinsList.get(index);
-            return this.formatShort(playerCoins.getMoney());
-        } catch(IndexOutOfBoundsException exception){
-            return moneyEmpty;
-        }
-
-    }
-
-    public String formatShort(double d){
+    public String formatShort(double d) {
         if (d < 1000L) {
             return format(d);
         }

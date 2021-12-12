@@ -1,13 +1,13 @@
 
-# If MYSQL is disabled, we will use SQLite as the database.
-MYSQL:
-  enabled: false
-  hostname: 'localhost'
-  database: 'database'
-  username: 'username'
-  password: 'password'
-  port: 3306
-  useSSL: false
+# If MYSQL is disabled, we will use SQLite as the database. Tính năng đã bị loại bỏ do như buồi
+#MYSQL:
+#  enabled: false
+#  hostname: 'localhost'
+#  database: 'database'
+#  username: 'username'
+#  password: 'password'
+#  port: 3306
+#  useSSL: false
 
 autoSave:
   enabled: true
@@ -45,6 +45,7 @@ options:
   shuffleRotating: false
   # Still in beta (I still don't know what should I do with WildStacker hook, please explain it to me on Discord.)
   wildStackerSupport: false
+  roseStackerSupport: false #quanphung__ recoded
   autoUpdateGUI:
     enabled: true
     # In ticks (20 ticks = 1 second)

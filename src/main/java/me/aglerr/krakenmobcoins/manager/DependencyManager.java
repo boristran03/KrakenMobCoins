@@ -11,6 +11,7 @@ public class DependencyManager {
     private boolean superMobCoins = false;
     private boolean mythicMobs = false;
     private boolean wildStacker = false;
+    private boolean roseStacker = false;
 
     private final MobCoins plugin;
     public DependencyManager(final MobCoins plugin){
@@ -40,13 +41,26 @@ public class DependencyManager {
             totalHooks++;
         }
 
-        if(pm.getPlugin("WildStacker") != null){
+        if (pm.getPlugin("WildStacker") != null) {
             utils.sendConsoleMessage("WildStacker found, enabling hooks!");
             setWildStacker(true);
             totalHooks++;
         }
+        if (pm.getPlugin("RoseStacker") != null) {
+            utils.sendConsoleMessage("§cRoseStacker found, enabling hooks! ##quanphung__ recode");
+            setRoseStacker(true);
+            totalHooks++;
+        }
 
         utils.sendConsoleMessage("Successfully hooked " + totalHooks + " plugins, enjoy!");
+    }
+
+    public boolean isRoseStacker() {
+        return roseStacker;
+    }
+
+    public void setRoseStacker(boolean roseStacker) {
+        this.roseStacker = roseStacker;
     }
 
     public boolean isSuperMobCoins() {

@@ -7,7 +7,6 @@ me\aglerr\krakenmobcoins\commands\subcommands\ReloadCommand.class
 me\aglerr\krakenmobcoins\shops\items\MainMenuItems.class
 me\aglerr\krakenmobcoins\shops\items\RotatingItems.class
 me\aglerr\krakenmobcoins\shops\RotatingShopInventory.class
-me\aglerr\krakenmobcoins\database\SQL.class
 me\aglerr\krakenmobcoins\commands\subcommands\RemoveCommand.class
 me\aglerr\krakenmobcoins\api\events\MobCoinsWithdrawEvent.class
 me\aglerr\krakenmobcoins\MobCoins.class
@@ -32,7 +31,6 @@ me\aglerr\krakenmobcoins\manager\AccountManager.class
 me\aglerr\krakenmobcoins\configs\TempDataConfig.class
 me\aglerr\krakenmobcoins\commands\MainCommand.class
 me\aglerr\krakenmobcoins\listeners\MythicMobDeathPhysical.class
-me\aglerr\krakenmobcoins\commands\subcommands\ConvertCommand.class
 me\aglerr\krakenmobcoins\listeners\CreatureSpawn.class
 me\aglerr\krakenmobcoins\abstraction\SubCommand.class
 me\aglerr\krakenmobcoins\commands\subcommands\HelpCommand.class
@@ -69,4 +67,5 @@ me\aglerr\krakenmobcoins\shops\CategoryInventory.class
 me\aglerr\krakenmobcoins\configs\MobsConfig.class
 me\aglerr\krakenmobcoins\listeners\MythicMobDeath.class
 me\aglerr\krakenmobcoins\utils\Metrics$SimplePie.class
+me\aglerr\krakenmobcoins\utils\ConfigUtils.class
 me\aglerr\krakenmobcoins\manager\SalaryManager.class

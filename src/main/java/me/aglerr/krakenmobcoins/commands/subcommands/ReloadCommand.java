@@ -3,6 +3,7 @@ package me.aglerr.krakenmobcoins.commands.subcommands;
 import me.aglerr.krakenmobcoins.MobCoins;
 import me.aglerr.krakenmobcoins.abstraction.SubCommand;
 import me.aglerr.krakenmobcoins.enums.ConfigMessages;
+import me.aglerr.krakenmobcoins.utils.ConfigUtils;
 import me.aglerr.krakenmobcoins.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,7 @@ public class ReloadCommand extends SubCommand {
         sender.sendMessage(utils.color(ConfigMessages.RELOAD.toString())
                 .replace("%prefix%", utils.getPrefix()));
         plugin.reloadConfigs();
-
+        ConfigUtils.getInstance().loadConfig();
     }
 
 }

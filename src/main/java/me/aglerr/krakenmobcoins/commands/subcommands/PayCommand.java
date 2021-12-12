@@ -2,8 +2,8 @@ package me.aglerr.krakenmobcoins.commands.subcommands;
 
 import me.aglerr.krakenmobcoins.MobCoins;
 import me.aglerr.krakenmobcoins.abstraction.SubCommand;
-import me.aglerr.krakenmobcoins.enums.ConfigMessages;
 import me.aglerr.krakenmobcoins.database.PlayerCoins;
+import me.aglerr.krakenmobcoins.enums.ConfigMessages;
 import me.aglerr.krakenmobcoins.manager.AccountManager;
 import me.aglerr.krakenmobcoins.utils.Utils;
 import org.bukkit.Bukkit;
@@ -110,7 +110,6 @@ public class PayCommand extends SubCommand {
         } else {
             sender.sendMessage(utils.color(ConfigMessages.ONLY_PLAYER.toString())
                     .replace("%player%", utils.getPrefix()));
-            return;
         }
 
     }
