@@ -51,15 +51,17 @@ public class AccountManager {
         BufferedReader reader = null;
         BufferedWriter writer = null;
         try {
+            PlayerCoins coins;
             Gson gson = new Gson();
             boolean newFile = file.createNewFile();
-            reader = new BufferedReader(new FileReader(file));
-            writer = new BufferedWriter(new FileWriter(file));
-            PlayerCoins coins;
             if (newFile) {
+                writer = new BufferedWriter(new FileWriter(file));
                 coins = new PlayerCoins(uuid);
+                coins.setMoney(configUtils.startingBalance);
                 gson.toJson(coins, PlayerCoins.class, writer);
+//                System.out.println("created data file");
             } else {
+                reader = new BufferedReader(new FileReader(file));
                 coins = gson.fromJson(reader, PlayerCoins.class);
             }
             playerCoins.put(uuid, coins);
