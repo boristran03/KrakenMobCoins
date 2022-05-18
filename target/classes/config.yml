@@ -1,17 +1,5 @@
-
-# If MYSQL is disabled, we will use SQLite as the database. Tính năng đã bị loại bỏ do như buồi
-#MYSQL:
-#  enabled: false
-#  hostname: 'localhost'
-#  database: 'database'
-#  username: 'username'
-#  password: 'password'
-#  port: 3306
-#  useSSL: false
-
 autoSave:
   enabled: true
-  # In seconds.
   interval: 300
 
 # Looting System explanation.
@@ -43,9 +31,8 @@ options:
   purchaseLimit: true
   disableMobCoinsFromSpawner: false
   shuffleRotating: false
-  # Still in beta (I still don't know what should I do with WildStacker hook, please explain it to me on Discord.)
   wildStackerSupport: false
-  roseStackerSupport: false #quanphung__ recoded
+  roseStackerSupport: false
   autoUpdateGUI:
     enabled: true
     # In ticks (20 ticks = 1 second)
@@ -115,8 +102,7 @@ mobcoinItem:
 
 # Disable player from getting mobcoins in
 # these worlds. (case-sensitive)
-disabledWorlds:
-  - 'exampleWorld'
+disabledWorlds: [ ]
 
 normalShop:
   size: 45
@@ -296,21 +282,6 @@ messages:
   outOfStock: '%prefix% &cThis item is out of stock!'
   amountNegative: '%prefix% &cThe amount cannot be negative!'
   unknownCommand: '%prefix% &cUnknown command, please use /mobcoins help'
-  leaderboard:
-    - '&6========= Coins Top ========='
-    - ''
-    - '  &6#1. &7%name_top1% - &6%money_top1% coins'
-    - '  &6#2. &7%name_top2% - &6%money_top2% coins'
-    - '  &6#3. &7%name_top3% - &6%money_top3% coins'
-    - '  &6#4. &7%name_top4% - &6%money_top4% coins'
-    - '  &6#5. &7%name_top5% - &6%money_top5% coins'
-    - '  &6#6. &7%name_top6% - &6%money_top6% coins'
-    - '  &6#7. &7%name_top7% - &6%money_top7% coins'
-    - '  &6#8. &7%name_top8% - &6%money_top8% coins'
-    - '  &6#9. &7%name_top9% - &6%money_top9% coins'
-    - '  &6#10. &7%name_top10% - &6%money_top10% coins'
-    - ''
-    - '&6==========================='
   helpAdmin:
     - ''
     - '&6&lKraken Mobcoins &7- by aglerr'

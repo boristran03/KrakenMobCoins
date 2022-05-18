@@ -1,10 +1,10 @@
 name: KrakenMobcoins
 version: 2.3
 api-version: 1.13
-authors: [aglerr, ItzStormz]
-main: me.aglerr.krakenmobcoins.MobCoins
-softdepend: [PlaceholderAPI, SuperMobCoins, MythicMobs, WildStacker]
+authors: [ aglerr, ItzStormz, quandz ]
+main: com.quandz.krakenmobcoins.MobCoins
+softdepend: [ PlaceholderAPI, SuperMobCoins, MythicMobs, WildStacker, RoseStacker ]
 
 commands:
   mobcoins:
-    aliases: [mc]
+    aliases: [ mc ]
